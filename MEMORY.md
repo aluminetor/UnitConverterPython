@@ -23,4 +23,4 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas: resume o elimina lo qu
 
 ## Próximos pasos
 - Añadir nuevas categorías de conversión (ej. masa: Kg a Libras, volumen: Litros a Galones).
-- Mejorar el diseño visual con CSS responsivo o estilos modernos.
+- Diseño renovado (2026-10-07): instrumento "MK-01" tinta #16283F + señal #FF5A2B, Space Grotesk + Spline Sans Mono, lectura gigante tabular; sin JS, valores del select intactos.

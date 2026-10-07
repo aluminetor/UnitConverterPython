@@ -3,101 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversor de Unidades</title>
+    <title>Conversor de Unidades — Taller de medidas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --tinta: #16283F;
+            --tinta-suave: #243B57;
+            --papel: #FDFCF8;
+            --linea: #D9D2BF;
+            --senal: #FF5A2B;
+            --senal-oscura: #C93E16;
+            --acero: #8BA8C2;
+            --verde: #1B7A5A;
+            --radio: 14px;
+        }
+        * { box-sizing: border-box; }
         body {
-            font-family: Arial, sans-serif;
-            max-width: 450px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            margin: 0;
+            font-family: "Space Grotesk", system-ui, sans-serif;
+            background: var(--tinta);
+            color: var(--tinta);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .form-group {
-            margin-bottom: 15px;
+        /* Franja superior tipo cinta métrica */
+        .cinta {
+            height: 34px;
+            background: repeating-linear-gradient(to right,
+                var(--papel) 0 1px, transparent 1px 12px);
+            background-color: var(--senal);
+            border-bottom: 3px solid var(--tinta);
+            position: relative;
         }
+        .cinta::after {
+            content: "km · mi · °C · °F · taller de medidas · km · mi · °C · °F";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            letter-spacing: .18em;
+            color: var(--papel);
+            font-weight: 700;
+        }
+        main {
+            flex: 1;
+            max-width: 1020px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 24px 56px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 28px;
+            align-items: start;
+        }
+        .manifiesto {
+            color: var(--papel);
+            padding-top: 12px;
+        }
+        .manifiesto h1 {
+            font-size: clamp(42px, 5vw, 68px);
+            line-height: .95;
+            margin: 0 0 16px;
+            font-weight: 700;
+            text-wrap: balance;
+        }
+        .manifiesto h1 span {
+            color: var(--senal);
+        }
+        .manifiesto p {
+            max-width: 38ch;
+            line-height: 1.6;
+            color: #C9D4E2;
+            font-size: 16px;
+            margin: 0 0 24px;
+        }
+        .chapas {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 28px;
+        }
+        .chapas li {
+            border: 1px solid var(--acero);
+            border-radius: 999px;
+            padding: 7px 14px;
+            font-size: 13.5px;
+            color: var(--papel);
+        }
+        .regla {
+            border-left: 2px dashed var(--acero);
+            padding-left: 18px;
+            display: grid;
+            gap: 12px;
+            font-size: 14px;
+            color: #C9D4E2;
+        }
+        .regla strong { color: var(--papel); }
+        /* Panel instrumento */
+        .panel {
+            background: var(--papel);
+            border-radius: var(--radio);
+            border: 3px solid var(--tinta);
+            box-shadow: 8px 8px 0 var(--senal);
+            overflow: hidden;
+        }
+        .panel-cabecera {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            border-bottom: 2px solid var(--tinta);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .08em;
+        }
+        .luces { display: flex; gap: 7px; }
+        .luces i {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--tinta);
+            display: block;
+        }
+        .luces i:nth-child(1) { background: var(--senal); }
+        .luces i:nth-child(2) { background: var(--acero); }
+        .luces i:nth-child(3) { background: var(--verde); }
+        form { padding: 22px 22px 18px; }
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 8px;
         }
-        input, select, button {
+        input, select {
             width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+            padding: 14px;
+            font-size: 17px;
+            font-family: inherit;
+            border: 2px solid var(--tinta);
+            border-radius: 10px;
+            background: #fff;
+            color: var(--tinta);
+        }
+        input:focus-visible, select:focus-visible, button:focus-visible {
+            outline: 3px solid var(--senal);
+            outline-offset: 2px;
+        }
+        .fila { display: grid; gap: 16px; margin-bottom: 16px; }
+        .intercambio {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--tinta-suave);
+        }
+        .intercambio::before, .intercambio::after {
+            content: "";
+            height: 2px;
+            background: var(--linea);
+            flex: 1;
         }
         button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: inherit;
+            background: var(--tinta);
+            color: var(--papel);
+            border: 2px solid var(--tinta);
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
         }
-        button:hover {
-            background-color: #0056b3;
+        button:hover { background: var(--senal-oscura); border-color: var(--senal-oscura); }
+        /* Lectura gigante: el elemento memorable */
+        .lectura {
+            margin: 0 22px 6px;
+            background: var(--tinta);
+            color: var(--papel);
+            border-radius: 10px;
+            padding: 18px 20px 14px;
+            position: relative;
+            overflow: hidden;
         }
-        .resultado {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e9ecef;
-            border-radius: 4px;
-            text-align: center;
-            font-weight: bold;
+        .lectura small {
+            font-size: 12.5px;
+            letter-spacing: .12em;
+            color: var(--acero);
+            font-weight: 700;
         }
+        .lectura .valor {
+            font-family: "Spline Sans Mono", monospace;
+            font-size: clamp(38px, 5vw, 52px);
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+            margin: 8px 0 10px;
+            word-break: break-all;
+        }
+        .lectura .ticks {
+            height: 18px;
+            background: repeating-linear-gradient(to right,
+                var(--acero) 0 2px, transparent 2px 14px);
+            opacity: .7;
+            border-top: 1px solid var(--acero);
+        }
+        .lectura.error { background: #3A1A12; }
+        .lectura.error .valor { font-size: 20px; line-height: 1.4; font-family: inherit; }
         .historial {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
+            margin: 14px 22px 22px;
+            border: 2px dashed var(--linea);
+            border-radius: 10px;
+            padding: 14px 16px;
+            background: #fff;
         }
+        .historial strong { font-size: 14px; }
         .historial ul {
-            margin: 10px 0 0 0;
-            padding-left: 20px;
+            margin: 10px 0 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+        .historial li {
+            font-family: "Spline Sans Mono", monospace;
+            font-size: 14px;
+            padding: 8px 10px;
+            background: var(--papel);
+            border-left: 5px solid var(--verde);
+            border-top: 1px solid var(--linea);
+            border-right: 1px solid var(--linea);
+            border-bottom: 1px solid var(--linea);
+            border-radius: 0 8px 8px 0;
+        }
+        footer {
+            text-align: center;
+            color: var(--acero);
+            font-size: 13px;
+            padding: 0 20px 28px;
+        }
+        @media (max-width: 820px) {
+            main { grid-template-columns: 1fr; }
+            .manifiesto h1 { font-size: 44px; }
+            .panel { box-shadow: 5px 5px 0 var(--senal); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
         }
     </style>
 </head>
 <body>
+    <div class="cinta" aria-hidden="true"></div>
 
-    <h2>Conversor de Unidades</h2>
-
-    <!-- El formulario envía los datos por POST a nuestro servidor Python -->
-    <form action="/" method="POST">
-        <div class="form-group">
-            <label for="valor">Cantidad a convertir:</label>
-            <input type="number" step="any" name="valor" id="valor" required placeholder="Ej: 100">
-        </div>
-
-        <div class="form-group">
-            <label for="tipo_conversion">Tipo de conversión:</label>
-            <select name="tipo_conversion" id="tipo_conversion">
-                <option value="km_a_millas">Kilómetros a Millas</option>
-                <option value="millas_a_km">Millas a Kilómetros</option>
-                <option value="c_a_f">Celsius a Fahrenheit</option>
-                <option value="f_a_c">Fahrenheit a Celsius</option>
-            </select>
-        </div>
-
-        <button type="submit">Convertir</button>
-    </form>
-
-    <!-- Jinja2 (motor de plantillas de Flask) mostrará el resultado cuando Python lo envíe -->
-    {% if resultado is not none %}
-        <div class="resultado">
-            Resultado: {{ resultado }}
-        </div>
-    {% endif %}
-
-    {% if historial %}
-        <div class="historial">
-            <strong>Historial de conversiones recientes:</strong>
-            <ul>
-                {% for item in historial %}
-                    <li>{{ item }}</li>
-                {% endfor %}
+    <main>
+        <div class="manifiesto">
+            <h1>Mide,<br>convierte<span>.</span><br>comprueba.</h1>
+            <p>Un banco de pruebas para tus primeras rutas con Flask. Escribe una cantidad, elige la conversión y el instrumento te devuelve el valor redondeado a 2 decimales.</p>
+            <ul class="chapas">
+                <li>Distancia</li>
+                <li>Temperatura</li>
+                <li>Flask + Python</li>
             </ul>
+            <div class="regla">
+                <div><strong>Paso 1 —</strong> escribe la cantidad tal como la leerías en voz alta.</div>
+                <div><strong>Paso 2 —</strong> elige el par de unidades. Los nombres coinciden con la lógica en Python.</div>
+                <div><strong>Paso 3 —</strong> pulsa Convertir y revisa la lectura gigante.</div>
+            </div>
         </div>
-    {% endif %}
 
+        <section class="panel" aria-label="Conversor de unidades">
+            <div class="panel-cabecera">
+                <span>CONVERSOR · MK-01</span>
+                <span class="luces"><i></i><i></i><i></i></span>
+            </div>
+
+            <!-- El formulario envía los datos por POST a nuestro servidor Python -->
+            <form action="/" method="POST">
+                <div class="fila">
+                    <div>
+                        <label for="valor">Cantidad a convertir</label>
+                        <input type="number" step="any" name="valor" id="valor" required placeholder="Ej: 100">
+                    </div>
+                    <div class="intercambio">elige el par de unidades</div>
+                    <div>
+                        <label for="tipo_conversion">Tipo de conversión</label>
+                        <select name="tipo_conversion" id="tipo_conversion">
+                            <option value="km_a_millas">Kilómetros a Millas</option>
+                            <option value="millas_a_km">Millas a Kilómetros</option>
+                            <option value="c_a_f">Celsius a Fahrenheit</option>
+                            <option value="f_a_c">Fahrenheit a Celsius</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit">Convertir</button>
+            </form>
+
+            <!-- Jinja2 (motor de plantillas de Flask) mostrará el resultado cuando Python lo envíe -->
+            {% if resultado is not none %}
+                {% if resultado is string %}
+                    <div class="lectura error" role="alert">
+                        <small>Lectura del instrumento</small>
+                        <div class="valor">{{ resultado }}</div>
+                    </div>
+                {% else %}
+                    <div class="lectura" role="status">
+                        <small>Lectura del instrumento</small>
+                        <div class="valor">{{ resultado }}</div>
+                        <div class="ticks" aria-hidden="true"></div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            {% if historial %}
+                <div class="historial">
+                    <strong>Historial de conversiones recientes</strong>
+                    <ul>
+                        {% for item in historial %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>Redondeo a 2 decimales · los textos no numéricos muestran aviso sin error 500</footer>
 </body>
 </html>
